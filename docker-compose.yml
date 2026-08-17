@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  broker:
+    build:
+      context: ./broker
+      dockerfile: Dockerfile
+    container_name: mini-kafka-broker
+    ports:
+      - "9092:9092"
+      - "8080:8080"
+    volumes:
+      - broker-data:/app/data
+    environment:
+      - DATA_DIR=/app/data
+      - TCP_ADDR=:9092
+      - HTTP_ADDR=:8080
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/api/stats"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: mini-kafka-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+    depends_on:
+      broker:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  broker-data:
+    driver: local
