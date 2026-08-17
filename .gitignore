@@ -1,0 +1,23 @@
+Set-Content -Path .gitignore -Value @"
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Runtime Log Data & Benchmarks binaries
+data/
+*.exe
+*.test
+benchmarks/*.exe
+
+# Environment & OS files
+.env*.local
+.DS_Store
+Thumbs.db
+"@
