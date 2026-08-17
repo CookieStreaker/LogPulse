@@ -1,4 +1,3 @@
-Set-Content -Path .gitignore -Value @"
 # Dependencies
 node_modules/
 .pnp
@@ -20,4 +19,3 @@ benchmarks/*.exe
 .env*.local
 .DS_Store
 Thumbs.db
-"@
